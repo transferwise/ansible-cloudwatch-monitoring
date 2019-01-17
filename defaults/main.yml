@@ -8,3 +8,5 @@ cw_options: "--disk-space-util  --disk-path=/ --disk-space-used --disk-space-ava
 # Default send monitoring date to cloudwatch every 5 minutes (basic monitoring plan)
 # You may like to change it to "*"" if you are using detailled cloudwatch monitoring, to send stats every minutes
 cw_cron_minute: "*/5"
+
+cw_script_zip_location: "/tmp/CloudWatchMonitoringScripts.zip"

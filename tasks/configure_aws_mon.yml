@@ -1,0 +1,16 @@
+---
+
+- name: "Install wrapper arround Perl script"
+  template:
+    src: "templates/cw-put-instance-data.sh.j2"
+    dest: "{{ cw_install_dir }}/cw-put-instance-data.sh"
+    mode: 0755
+
+- name: "Install cron command"
+  cron:
+    name: "CloudWatchMonitoringScripts"
+    cron_file: cw-put-instance-data
+    job: "{{ cw_install_dir }}/cw-put-instance-data.sh"
+    minute: "{{ cw_cron_minute }}"
+    state: present
+    user: "root"

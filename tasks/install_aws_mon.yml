@@ -1,16 +1,18 @@
 ---
-- name: Download cloudwatch monitoring scripts
-  get_url: url={{cw_script_download_url}} dest=/tmp/CloudWatchMonitoringScripts.zip
+- name: "Download cloudwatch monitoring scripts"
+  get_url:
+    url: "{{ cw_script_download_url }}"
+    dest: "{{ cw_script_zip_location }}"
   register: get_script
 
-- name: Install unzip
-  package: name=unzip state=present
-  when: get_script|changed
+- name: "Install the scripts"
+  block:
+    - name: Unzip the scripts
+      unarchive:
+        src: "{{ cw_script_zip_location }}"
+        dest: /tmp/
+        copy: false
 
-- name: Unzip the scripts
-  unarchive: src=/tmp/CloudWatchMonitoringScripts.zip dest=/tmp/ copy=no
-  when: get_script|changed
-
-- name: Move to install directory
-  command: mv /tmp/aws-scripts-mon {{cw_install_dir}}
-  when: get_script|changed
+    - name: Move to install directory
+      command: mv /tmp/aws-scripts-mon {{cw_install_dir}}
+  when: get_script.changed is defined and get_script.changed == True

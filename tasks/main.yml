@@ -1,29 +1,8 @@
 ---
 # tasks file for cloudwatch-monitoring
-- name: "Install Perl dependencies needed by cloudwatch-monitoring script"
-  yum: name={{item}} state=present
-  when: ansible_os_family == "RedHat"
-  with_items:
-    - perl-Time-HiRes
-    - perl-DateTime
-    - perl-Sys-Syslog
-    - perl-Crypt-SSLeay
-    - perl-libwww-perl
-    - perl-LWP-Protocol-https
-    - perl-Digest-SHA
 
-- name: "Install Perl dependencies needed for Debian/Ubuntu"
-  apt: name={{item}} state=present
-  when: ansible_os_family == "Debian"
-  with_items:
-    - libwww-perl
-    - libdatetime-perl
+- include: install_prerequisites.yml
 
-- import_tasks: install_aws_mon.yml
+- include: install_aws_mon.yml
 
-- name: "Install wrapper arround Perl script"
-  template: src=templates/cw-put-instance-data.sh.j2 dest={{cw_install_dir}}/cw-put-instance-data.sh mode=755
-
-- name: "Install cron command"
-  cron: name="CloudWatchMonitoringScripts" minute={{cw_cron_minute}}  state=present job="{{cw_install_dir}}/cw-put-instance-data.sh" cron_file=cw-put-instance-data user=root
-
+- include: configure_aws_mon.yml

@@ -1,0 +1,29 @@
+---
+
+- name: "Install Perl dependencies needed by cloudwatch-monitoring script"
+  package:
+    name: "{{ item }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+  with_items:
+    - perl-Time-HiRes
+    - perl-DateTime
+    - perl-Sys-Syslog
+    - perl-Crypt-SSLeay
+    - perl-libwww-perl
+    - perl-LWP-Protocol-https
+    - perl-Digest-SHA
+
+- name: "Install Perl dependencies needed for Debian/Ubuntu"
+  package:
+    name: "{{ item }}"
+    state: present
+  when: ansible_os_family == "Debian"
+  with_items:
+    - libwww-perl
+    - libdatetime-perl
+
+- name: "Install unzip dependency"
+  package:
+    name: unzip
+    state: present
