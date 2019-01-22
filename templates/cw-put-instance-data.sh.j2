@@ -7,4 +7,9 @@ if [ ! -d $AWS_EC2CW_META_DATA ]; then
     mkdir -p $AWS_EC2CW_META_DATA
 fi
 
-{{ cw_install_dir }}/mon-put-instance-data.pl {{ cw_options }} --from-cron || logger -t aws-scripts-mon "status=failed exit_code=$?"
+
+{{ cw_install_dir }}/mon-put-instance-data.pl \
+{%- for flag in cw_options %}
+--{{ flag }} \
+{%- endfor %}
+|| logger -t aws-scripts-mon "status=failed exit_code=$?"

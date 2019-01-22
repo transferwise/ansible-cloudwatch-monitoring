@@ -27,9 +27,18 @@ Role Variables
 	* Type : string
 	* Default : /opt/aws-scripts-mon/
 
-- cw_options : Arguments used when calling cloudwatch script
-	* Type : string
-	* Default : --disk-space-util  --disk-path=/ --disk-space-used --disk-space-avail --swap-util --swap-used --mem-util --mem-used --mem-avail
+- cw_options : A list of arguments for the cloudwatch script.
+	* Type : list
+	* Default : 
+            --disk-space-util
+            --disk-path=/
+            --disk-space-used
+            --disk-space-avail
+            --swap-util
+            --swap-used
+            --mem-util
+            --mem-used
+            --mem-avail
 
 - cw_cron_minute : Frequency (in minutes) of data reporting to cloudwatch. Must be written with crond syntax. You may want to set it to "*" if you are using detailled monitoring for your EC2 instances, to send monitoring data every 5 minutes.
 	* Type : string

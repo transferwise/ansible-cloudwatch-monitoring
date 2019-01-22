@@ -31,5 +31,7 @@ def test_script_file(host):
     assert f.user == 'root'
     assert f.group == 'root'
     assert f.contains('export')
-    assert f.contains('--disk-space-util')
+    assert f.contains('--TEST')
+    assert f.contains('--BIGGER_TEST')
+    assert f.contains('--WOAH')
     assert f.contains('/opt/aws-scripts-mon/')
